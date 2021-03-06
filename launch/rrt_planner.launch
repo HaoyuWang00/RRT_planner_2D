@@ -1,0 +1,16 @@
+<launch>
+    <arg name="rviz_config" default="$(find rrt_planner)/cfg/rrt_planner.rviz"/>
+    <arg name="map_file" default="$(find rrt_planner)/cfg/map.yaml"/>
+
+    <rosparam command="load" file="$(find rrt_planner)/cfg/config.yaml"/>
+
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(arg rviz_config)"/>
+    <node type="map_server" name="map_server" pkg="map_server" args="$(arg map_file)"/>
+    <node type="rrt_planner_node" name="rrt_planner" pkg="rrt_planner" output="screen">
+        <param name="map_topic" value="/map"/>
+        <param name="goal_topic" value="/goal"/>
+        <param name="pose_topic" value="/pose"/>
+        <param name="max_vertices" value="2000"/>
+        <param name="step_size" value="20"/>    
+    </node>
+</launch>
